@@ -6,6 +6,7 @@ class ErrorCodes:
 
 
 class DetailedException(Exception):
+
     status_code = 400
 
     def __init__(

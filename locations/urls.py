@@ -3,5 +3,9 @@ from . import views
 
 
 urlpatterns = [
-    path('<city>/', views.RetrieveTemperatureData.as_view(), name='retrieve_temperature_data'),
+    path(
+        "<city>/",
+        views.RetrieveTemperatureData.as_view(),
+        name="retrieve_temperature_data",
+    )
 ]

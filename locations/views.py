@@ -8,7 +8,7 @@ from locations.request_object import RetrieveTemperatureDataRequestObject
 
 
 def retrieve_temperature_data(data):
-    """ Retrieve temperature data main stuff """
+    """Retrieve temperature data main stuff"""
 
     max_temp = -100
     min_temp = 100
@@ -26,10 +26,10 @@ def retrieve_temperature_data(data):
     median_temp = (min_temp + max_temp) / 2
 
     return {
-        'maximum': max_temp,
-        'minimum': min_temp,
-        'average': avg_temp,
-        'median': median_temp
+        "maximum": max_temp,
+        "minimum": min_temp,
+        "average": avg_temp,
+        "median": median_temp,
     }
 
 
@@ -38,19 +38,24 @@ class RetrieveTemperatureData(APIView):
 
     @staticmethod
     def get(request, city):
-        if 'days' not in request.query_params:
+        if "days" not in request.query_params:
             raise Exception("[days] parameter is missing")
 
-        request_obj = RetrieveTemperatureDataRequestObject.from_dict({
-            RetrieveTemperatureDataRequestObject.CITY: city,
-            RetrieveTemperatureDataRequestObject.DAYS: request.query_params.get('days')
-        })
+        request_obj = RetrieveTemperatureDataRequestObject.from_dict(
+            {
+                RetrieveTemperatureDataRequestObject.CITY: city,
+                RetrieveTemperatureDataRequestObject.DAYS: request.query_params.get(
+                    "days"
+                ),
+            }
+        )
 
-        response = requests.get(f'https://api.weatherapi.com/v1/forecast.json?key={settings.WEATHER_API_KEY}&q={request_obj.city}&aqi=no&days={request_obj.days}')
+        response = requests.get(
+            f"https://api.weatherapi.com/v1/forecast.json?key={settings.WEATHER_API_KEY}&q={request_obj.city}&aqi=no&days={request_obj.days}"
+        )
 
         if response.status_code != 200:
             raise Exception(response.json()["error"]["message"])
 
         rsp = retrieve_temperature_data(response.json()["forecast"]["forecastday"])
-
         return JsonResponse(rsp, safe=False)
