@@ -103,3 +103,5 @@ locations api will be only visible for authorized users. You can simply authoriz
 
 ### Code Style
 
+We use Black and Flake8 for Beautiful coding.
+Run `pre-commit install` and it will automatically check your code before you commit your code.
